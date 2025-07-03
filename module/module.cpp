@@ -110,11 +110,13 @@ bool EnableCsBot()
 		}
 	}
 
-#if defined(KE_WINDOWS)
-	auto address = memUtils->FindSymbol(SIGNATURE_HOSTAGE_IDLETHINK);
-#else
-	auto address = memUtils->FindPattern(SIGNATURE_HOSTAGE_IDLETHINK, sizeof(SIGNATURE_HOSTAGE_IDLETHINK));
-#endif
+	#if defined(KE_WINDOWS)
+		auto address = memUtils->FindSymbol(SIGNATURE_HOSTAGE_IDLETHINK);
+	#else
+		auto address = memUtils->FindPattern(SIGNATURE_HOSTAGE_IDLETHINK, sizeof(SIGNATURE_HOSTAGE_IDLETHINK));
+	#endif
+
+	address = ((byte*)address) + SIGNATURE_HOSTAGE_IDLETHINK_OFFSET;
 
 	if (!memUtils->ProtectMemory(address, sizeof(HOSTAGE_IDLETHINK_REPLACE), PAGE_EXECUTE_READWRITE))
 	{

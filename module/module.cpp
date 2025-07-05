@@ -14,7 +14,7 @@
 cvar_t CvarInitPrecacheRadioSounds = { "csbot_precache_radio_sounds", "0", FCVAR_SERVER };
 cvar_t *CvarPrecacheRadioSounds;
 
-bool ModuleLoaded;
+static bool ModuleLoaded = 0;
 
 static bool EnableBotPhraseManagerInitializeFailMessage()
 {
@@ -131,21 +131,22 @@ bool EnableCsBot()
 
 void OnMetaAttach()
 {
-	LOG_CONSOLE(PLID, "   %s v%s", MODULE_NAME, MODULE_VERSION);
+	if(ModuleLoaded == 0){
+		LOG_CONSOLE(PLID, "   %s v%s", MODULE_NAME, MODULE_VERSION);
 
-	if (strcmp(GET_GAME_INFO(PLID, GINFO_NAME), "cstrike"))
-	{
-		LOG_CONSOLE(PLID, "   Status: Failed. This module is only for Counter-Strike 1.6");
-		return;
+		if (strcmp(GET_GAME_INFO(PLID, GINFO_NAME), "cstrike"))
+		{
+			LOG_CONSOLE(PLID, "   Status: Failed. This module is only for Counter-Strike 1.6");
+			return;
+		}
+
+		CVAR_REGISTER(&CvarInitPrecacheRadioSounds);
+		CvarPrecacheRadioSounds = CVAR_GET_POINTER(CvarInitPrecacheRadioSounds.name);
+
+		ModuleLoaded = EnableCsBot();
+
+		LOG_CONSOLE(PLID, "   Status: %s.\n", ModuleLoaded ? "Loaded" : "Failed");
 	}
-
-	CVAR_REGISTER(&CvarInitPrecacheRadioSounds);
-	CvarPrecacheRadioSounds = CVAR_GET_POINTER(CvarInitPrecacheRadioSounds.name);
-
-	ModuleLoaded = EnableCsBot();
-
-	LOG_CONSOLE(PLID, "   Status: %s.\n", ModuleLoaded ? "Loaded" : "Failed");
-
 }
 
 void OnServerActivate(edict_t *pEdictList, int edictCount, int clientMax)

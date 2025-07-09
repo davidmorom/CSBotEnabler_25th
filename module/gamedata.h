@@ -43,7 +43,7 @@
 	const byte SIGNATURE_PROCESS_ADD_BOT  [] = { SIGNATURE_BASE2, 0x83, '*', '*', 0x89, '*', 0x8B, '*', '*', '*', '*', '*', 0x0F, '*', '*', '*', '*', '*', 0x85, '*', 0x0F, '*', '*', '*', '*', '*', 0x83, '*', '*', 0x0F };
 	const byte SIGNATURE_CLIENT_PRINT     [] = { SIGNATURE_BASE, 0x80, '*', '*', '*', '*', 0x0F, '*', '*', '*', '*', '*', 0x8B, '*', '*', 0x31, '*', 0xBB, '*', '*', '*', '*', 0x8B, '*', '*', '*', '*', '*', 0x89, '*', '*', '*', 0x89 };
 	
-	const byte SIGNATURE_HOSTAGE_IDLETHINK[] = { 0x57, 0x56, 0x53, 0x83, '*', '*', 0x81, '*', '*', '*', '*', '*', '*', '*', '*', '*', 0x8B, '*', '*', '*', 0x0F, '*', '*', '*', '*', '*', 0x8B, '*', '*', '*', '*', '*', 0x85, '*', 0x0F };
+	const char SIGNATURE_HOSTAGE_IDLETHINK[] = "_ZN8CHostage9IdleThinkEv";
 	int SIGNATURE_HOSTAGE_IDLETHINK_OFFSET   = 20;
 	const byte HOSTAGE_IDLETHINK_REPLACE  [] = { 0x90, 0xE9 };
 

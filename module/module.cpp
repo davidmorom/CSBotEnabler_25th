@@ -101,7 +101,7 @@ bool EnableCsBot()
 
 		if (!address || !memUtils->RedirectFunctionCall(static_cast<byte*>(address) + 1, reinterpret_cast<void*>(signature.address), &signature.address_original))
 		{
-			LOG_CONSOLE(PLID, "   Error: Could not patch \"%s\"", MODULE_NAME, signature.pattern_info);
+			LOG_CONSOLE(PLID, "   Error: Could not patch \"%s\"", signature.pattern_info);
 		}
 
 		if (!strcmp(signature.pattern_info, "CLIENT_PRINT"))
@@ -110,17 +110,13 @@ bool EnableCsBot()
 		}
 	}
 
-	#if defined(KE_WINDOWS)
-		auto address = memUtils->FindSymbol(SIGNATURE_HOSTAGE_IDLETHINK);
-	#else
-		auto address = memUtils->FindPattern(SIGNATURE_HOSTAGE_IDLETHINK, sizeof(SIGNATURE_HOSTAGE_IDLETHINK));
-	#endif
-
+	auto address = memUtils->FindSymbol(SIGNATURE_HOSTAGE_IDLETHINK);
+	
 	address = ((byte*)address) + SIGNATURE_HOSTAGE_IDLETHINK_OFFSET;
 
 	if (!memUtils->ProtectMemory(address, sizeof(HOSTAGE_IDLETHINK_REPLACE), PAGE_EXECUTE_READWRITE))
 	{
-		LOG_CONSOLE(PLID, "   Error: Could not patch \"HOSTAGE_IDLETHINK\"", MODULE_NAME);
+		LOG_CONSOLE(PLID, "   Error: Could not patch \"%s\"", SIGNATURE_HOSTAGE_IDLETHINK);
 		return false;
 	}
 
